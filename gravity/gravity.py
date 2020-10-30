@@ -153,7 +153,7 @@ def constanttimeintervals(t,x,y, dt):
     ynew = ynew[:-1]
     return tnew, xnew, ynew
 
-def plotanimation(x,y, saveasmp4):
+def plotanimation(x,y):
     t0 = time.time()
     fig, ax = plt.subplots()
     ntail = 30
@@ -177,15 +177,10 @@ def plotanimation(x,y, saveasmp4):
 
     im_ani = animation.ArtistAnimation(fig, axs, interval = 50, repeat_delay = 3000, blit = True)
 
-    if saveasmp4:
-        Writer = animation.writers['ffmpeg']
-        writer = Writer(fps=15, metadata=dict(artist='Oliver Normand'), bitrate=1800)
-        im_ani.save('im1.mp4', writer = writer)
-        print("Animation save time {}".format(time.time() - t0))
-    if not saveasmp4:
-        print("Animation generated in {}s".format(time.time() - t0))
-        plt.show()
-
+    Writer = animation.writers['ffmpeg']
+    writer = Writer(fps=15, metadata=dict(artist='Oliver Normand'), bitrate=1800)
+    im_ani.save('im1.mp4', writer = writer)
+    print("Animation save time {}".format(time.time() - t0))
 
 nparticles = 3
 dt = 0.005
@@ -193,4 +188,4 @@ state, masses = initialParticleState(nparticles) # x1, vx1, y1, vy1, x2, vx2, y2
 t, x, y = solve(state, dt)
 t, x, y = constanttimeintervals(t,x,y,dt)
 
-plotanimation(x,y, True)
+plotanimation(x,y)
